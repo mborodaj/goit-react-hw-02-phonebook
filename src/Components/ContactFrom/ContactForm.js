@@ -1,17 +1,66 @@
-import React from 'react';
+import React, { Component } from 'react';
+import propTypes from 'prop-types';
+import shortid from 'shortid';
+import styles from './ContactForm.module.css';
 
-const ContactForm = ({}) => {
-  return (
-    <form>
-      <label for="userName">Name</label>
-      <input id="userName" type="text"></input>
+class ContactForm extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
 
-      <label for="phoneNumber">Phone number</label>
-      <input id="phoneNumber" type="text"></input>
+  getContactData = event => {
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
+  };
 
-      <button>Add contact</button>
-    </form>
-  );
-};
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const { name, number } = this.state;
+    const contactId = shortid.generate();
+    const newContact = { id: contactId, name, number };
+
+    console.log(newContact.name);
+
+    this.props.onSubmit(newContact);
+
+    this.resetForm();
+  };
+
+  resetForm = () => {
+    this.setState({ name: '', number: '' });
+  };
+
+  render() {
+    return (
+      <div class={styles.container}>
+        <form onSubmit={this.handleSubmit} className={styles.formContainer}>
+          <label className={styles.formLabel}>
+            Name
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              onChange={this.getContactData}
+              className={styles.inputForm}
+            ></input>
+          </label>
+          <label className={styles.formLabel}>
+            Phone number
+            <input
+              type="text"
+              name="number"
+              value={this.state.number}
+              onChange={this.getContactData}
+              className={styles.inputForm}
+            ></input>
+          </label>
+          <button className={styles.formBtn}>Add to contact list</button>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default ContactForm;
