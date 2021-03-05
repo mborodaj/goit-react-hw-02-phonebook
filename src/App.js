@@ -1,5 +1,4 @@
 import baseCss from './base.module.css';
-import shortid from 'shortid';
 
 import React, { Component } from 'react';
 import ContactForm from './Components/ContactFrom/ContactForm';
@@ -25,7 +24,12 @@ class App extends Component {
 
   addContact = newContact => {
     const { contacts } = this.state;
-    console.log(newContact);
+
+    if (newContact.name || newContact.number == '') {
+      alert('Please enter name & phone number');
+      return;
+    }
+
     if (this.checkContactName(newContact.name)) {
       alert('Such contact already exist');
       return;
