@@ -25,11 +25,6 @@ class App extends Component {
   addContact = newContact => {
     const { contacts } = this.state;
 
-    if (newContact.name || newContact.number == '') {
-      alert('Please enter name & phone number');
-      return;
-    }
-
     if (this.checkContactName(newContact.name)) {
       alert('Such contact already exist');
       return;
